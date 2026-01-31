@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+<!--            -->
+{% block title %}Log In - Personal Blog API{% endblock title %}
+<!--              -->
+
+{% block content %}
+<h2>Log In</h2>
+<form method="post">
+  {% csrf_token %}
+  <!---                -->
+  {{ form.as_p }}
+  <button type="submit">Log In</button>
+</form>
+<p>Don't you have an account? <a href="{% url 'signup' %}">Create New</a></p>
+{% endblock content %}
