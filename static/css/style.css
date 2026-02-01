@@ -1,0 +1,13 @@
+body {
+    background-color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+header h2 a:hover {
+    color: red;
+}
+header h2 a {
+    cursor: alias;
+}
+header {
+    text-align: center;
+}
