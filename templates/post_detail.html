@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+<!--             -->
+
+{% block title %}Post-Detail Page{% endblock title %}
+<!--                 -->
+
+{% block content %}
+<h1>- {{ post.title }} -</h1>
+
+{% if post.cover_image %}
+<img
+  src="{{ post.cover_image.url }}"
+  alt="{{ post.title }}"
+  style="max-width: 15%; height: auto"
+/>
+{% endif %}
+
+<p>{{ post.content }}</p>
+
+<p>by {{ post.author }}</p>
+
+<p>🕒 Created: {{ post.created_at|date:"d M Y, h:i A" }}</p>
+
+{% if post.updated_at and post.updated_at != post.created_at %}
+<p>✏️ Updated: {{ post.updated_at|date:"d M Y, h:i A" }}</p>
+{% endif %}
+
+<p>back to <a style="color: black" href="{% url 'post_list' %}">posts</a>.</p>
+{% endblock content %}

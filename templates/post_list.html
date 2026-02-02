@@ -4,14 +4,21 @@
 <!--                   -->
 {% block content %}
 <!--            -->
+<a href="{% url 'post_create' %}">+ New</a>
 {% for post in post_list %}
 <p><span>by {{ post.author }} | {{ post.created_at }}</span></p>
-<img
-  style="max-width: 25%; height: auto"
-  src="{{ post.cover_image.url }}"
-  alt="{{ post.title }}"
-/>
+<p>
+  -
+  <a style="color: red; font-size: 20px" href="{% url 'post_detail' post.pk %}"
+    >{{ post.title }}</a
+  >
+  -
+</p>
 <p>{{ post.content }}</p>
+<p>
+  <a href="{% url 'post_update' post.pk %}">Edit</a> |
+  <a href="{% url 'post_delete' post.pk %}">Delete</a>
+</p>
 <hr />
 {% endfor %}
 <!--                   -->

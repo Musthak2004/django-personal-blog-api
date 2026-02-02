@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+<!--                  -->
+
+{% block title %}Edit Post{% endblock title %}
+<!--             -->
+
+{% block content %}
+<h2>✏️ Edit Your Blog</h2>
+
+<p>You are editing: <strong>"{{ post.title }}"</strong></p>
+
+{% if post.cover_image %}
+<p>Current Cover Image:</p>
+<img
+  src="{{ post.cover_image.url }}"
+  alt="{{ post.title }}"
+  style="max-width: 20%; height: auto; margin-bottom: 10px"
+/>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %} {{ form.as_p }}
+
+  <button
+    type="submit"
+    style="background: green; color: white; padding: 5px 10px; border: none"
+  >
+    Update Post
+  </button>
+
+  <a href="{% url 'post_detail' post.pk %}" style="margin-left: 10px">
+    Cancel
+  </a>
+</form>
+{% endblock content %}

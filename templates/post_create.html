@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+<!--                -->
+
+{% block title %}Create New Blog{% endblock title %}
+<!--                -->
+
+{% block content %}
+<h2>📝 Create New Blog</h2>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %} {{ form.as_p }}
+
+  <button
+    type="submit"
+    style="background: blue; color: white; padding: 5px 10px; border: none"
+  >
+    Create Post
+  </button>
+
+  <a href="{% url 'post_list' %}" style="margin-left: 10px"> Cancel </a>
+</form>
+{% endblock content %}
