@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+<!--                 -->
+{% block title %}Blogs{% endblock title %}
+<!--                   -->
+{% block content %}
+<!--            -->
+{% for post in post_list %}
+<p><span>by {{ post.author }} | {{ post.created_at }}</span></p>
+<img
+  style="max-width: 25%; height: auto"
+  src="{{ post.cover_image.url }}"
+  alt="{{ post.title }}"
+/>
+<p>{{ post.content }}</p>
+<hr />
+{% endfor %}
+<!--                   -->
+{% endblock content %}

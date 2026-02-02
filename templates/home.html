@@ -9,12 +9,15 @@
   <body>
     {% block content %}
     <!--                     -->
-    <h2 id="greeting">
+    <h2>
       {% if user.is_authenticated %} Hi {{ user.username }}!
       <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit">Log Out</button>
       </form>
+      <span style="font-size: 15px"
+        ><a href="{% url 'post_list' %}">Blogs</a></span
+      >
       {% else %}
       <p>You are not logged in</p>
       <a href="{% url 'login' %}">Log In</a> |
