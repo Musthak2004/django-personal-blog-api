@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
+    'blogs.apps.BlogsConfig', # new main app
 ]
+
+TIME_ZONE = "Asia/Colombo"
+USE_TZ = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
