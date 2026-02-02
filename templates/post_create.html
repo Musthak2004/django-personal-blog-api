@@ -1,22 +1,39 @@
 {% extends "base.html" %}
-<!--                -->
+<!--                    -->
 
 {% block title %}Create New Blog{% endblock title %}
-<!--                -->
+<!--                      -->
 
 {% block content %}
-<h2>📝 Create New Blog</h2>
+<div class="max-w-3xl mx-auto py-10 px-4 space-y-6">
+  <h2 class="text-2xl font-semibold text-gray-800">📝 Create New Blog</h2>
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %} {{ form.as_p }}
-
-  <button
-    type="submit"
-    style="background: blue; color: white; padding: 5px 10px; border: none"
+  <form
+    method="post"
+    enctype="multipart/form-data"
+    class="space-y-4 bg-white shadow-md p-6 rounded"
   >
-    Create Post
-  </button>
+    {% csrf_token %}
 
-  <a href="{% url 'post_list' %}" style="margin-left: 10px"> Cancel </a>
-</form>
+    <!-- Form fields rendered nicely -->
+    {{ form.as_p }}
+
+    <!-- Buttons -->
+    <div class="flex items-center space-x-4">
+      <button
+        type="submit"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
+        Create Post
+      </button>
+
+      <a
+        href="{% url 'post_list' %}"
+        class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+      >
+        Cancel
+      </a>
+    </div>
+  </form>
+</div>
 {% endblock content %}

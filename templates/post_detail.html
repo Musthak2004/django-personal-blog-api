@@ -1,29 +1,42 @@
 {% extends "base.html" %}
-<!--             -->
+<!--                       -->
 
-{% block title %}Post-Detail Page{% endblock title %}
-<!--                 -->
+{% block title %}{{ post.title }}{% endblock title %}
+<!--                   -->
 
 {% block content %}
-<h1>- {{ post.title }} -</h1>
+<div class="max-w-4xl mx-auto py-10 px-4 space-y-6">
+  <h1 class="text-3xl font-playfair font-bold text-gray-800 text-center">
+    {{ post.title }}
+  </h1>
 
-{% if post.cover_image %}
-<img
-  src="{{ post.cover_image.url }}"
-  alt="{{ post.title }}"
-  style="max-width: 15%; height: auto"
-/>
-{% endif %}
+  {% if post.cover_image %}
+  <div class="flex justify-center my-4">
+    <img
+      src="{{ post.cover_image.url }}"
+      alt="{{ post.title }}"
+      class="max-w-xs rounded shadow-md"
+    />
+  </div>
+  {% endif %}
 
-<p>{{ post.content }}</p>
+  <div class="prose max-w-full mx-auto">{{ post.content|linebreaks }}</div>
 
-<p>by {{ post.author }}</p>
+  <div class="flex justify-between items-center mt-6 text-gray-600 text-sm">
+    <span>by {{ post.author }}</span>
+    <span>🕒 Created: {{ post.created_at|date:"d M Y, h:i A" }}</span>
+  </div>
 
-<p>🕒 Created: {{ post.created_at|date:"d M Y, h:i A" }}</p>
+  {% if post.updated_at and post.updated_at != post.created_at %}
+  <div class="text-gray-500 text-sm mt-1">
+    ✏️ Updated: {{ post.updated_at|date:"d M Y, h:i A" }}
+  </div>
+  {% endif %}
 
-{% if post.updated_at and post.updated_at != post.created_at %}
-<p>✏️ Updated: {{ post.updated_at|date:"d M Y, h:i A" }}</p>
-{% endif %}
-
-<p>back to <a style="color: black" href="{% url 'post_list' %}">posts</a>.</p>
+  <div class="mt-6">
+    <a href="{% url 'post_list' %}" class="text-blue-600 hover:underline">
+      ← Back to posts
+    </a>
+  </div>
+</div>
 {% endblock content %}

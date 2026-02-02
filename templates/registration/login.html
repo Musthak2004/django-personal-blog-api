@@ -1,15 +1,31 @@
 {% extends "base.html" %}
-<!--            -->
-{% block title %}Log In - Personal Blog API{% endblock title %}
-<!--              -->
+<!--                     -->
+
+{% block title %}Log In - Personal Blog{% endblock title %}
+<!--                     -->
 
 {% block content %}
-<h2>Log In</h2>
-<form method="post">
-  {% csrf_token %}
-  <!---                -->
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
-</form>
-<p>Don't you have an account? <a href="{% url 'signup' %}">Create New</a></p>
+<div class="min-h-[70vh] flex items-center justify-center px-4">
+  <div class="w-full max-w-md bg-white shadow-md rounded p-6 space-y-6">
+    <h2 class="text-2xl font-semibold text-center text-gray-800">🔐 Log In</h2>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %} {{ form.as_p }}
+
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+      >
+        Log In
+      </button>
+    </form>
+
+    <p class="text-sm text-center text-gray-600">
+      Don’t have an account?
+      <a href="{% url 'signup' %}" class="text-blue-600 hover:underline">
+        Create New
+      </a>
+    </p>
+  </div>
+</div>
 {% endblock content %}

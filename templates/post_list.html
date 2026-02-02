@@ -1,25 +1,79 @@
 {% extends "base.html" %}
-<!--                 -->
+<!--                        -->
+
 {% block title %}Blogs{% endblock title %}
-<!--                   -->
+<!--                    -->
+
 {% block content %}
-<!--            -->
-<a href="{% url 'post_create' %}">+ New</a>
-{% for post in post_list %}
-<p><span>by {{ post.author }} | {{ post.created_at }}</span></p>
-<p>
-  -
-  <a style="color: red; font-size: 20px" href="{% url 'post_detail' post.pk %}"
-    >{{ post.title }}</a
+<div class="max-w-5xl mx-auto py-10 px-4 space-y-8">
+  <!-- Header -->
+  <div class="flex justify-between items-center">
+    <h2 class="text-2xl font-semibold text-gray-800">📰 Blogs</h2>
+
+    <a
+      href="{% url 'post_create' %}"
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+    >
+      + New Post
+    </a>
+  </div>
+
+  <!-- Blog Cards -->
+  {% for post in post_list %}
+  <div
+    class="bg-white shadow-md rounded p-6 space-y-4 hover:shadow-lg transition"
   >
-  -
-</p>
-<p>{{ post.content }}</p>
-<p>
-  <a href="{% url 'post_update' post.pk %}">Edit</a> |
-  <a href="{% url 'post_delete' post.pk %}">Delete</a>
-</p>
-<hr />
-{% endfor %}
-<!--                   -->
+    <!-- Title -->
+    <h3 class="text-xl font-semibold text-gray-800">
+      <a href="{% url 'post_detail' post.pk %}" class="hover:text-blue-600">
+        {{ post.title }}
+      </a>
+    </h3>
+
+    <!-- Meta -->
+    <p class="text-sm text-gray-500">
+      by {{ post.author }} · {{ post.created_at|date:"d M Y" }}
+    </p>
+
+    <!-- Cover image -->
+    {% if post.cover_image %}
+    <img
+      src="{{ post.cover_image.url }}"
+      alt="{{ post.title }}"
+      class="w-full max-h-60 object-cover rounded"
+    />
+    {% endif %}
+
+    <!-- Content preview -->
+    <p class="text-gray-700">{{ post.content|truncatechars:150 }}</p>
+
+    <!-- Actions -->
+    <div class="flex space-x-4 text-sm">
+      <a
+        href="{% url 'post_detail' post.pk %}"
+        class="text-blue-600 hover:underline"
+      >
+        Read more →
+      </a>
+
+      {% if user == post.author %}
+      <a
+        href="{% url 'post_update' post.pk %}"
+        class="text-green-600 hover:underline"
+      >
+        Edit
+      </a>
+      <a
+        href="{% url 'post_delete' post.pk %}"
+        class="text-red-600 hover:underline"
+      >
+        Delete
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <p class="text-gray-600">No blog posts yet.</p>
+  {% endfor %}
+</div>
 {% endblock content %}

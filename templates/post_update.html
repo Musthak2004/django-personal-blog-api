@@ -1,35 +1,51 @@
 {% extends "base.html" %}
-<!--                  -->
+<!--                   -->
 
 {% block title %}Edit Post{% endblock title %}
-<!--             -->
+<!--                 -->
 
 {% block content %}
-<h2>✏️ Edit Your Blog</h2>
+<div class="max-w-3xl mx-auto py-10 px-4 space-y-6">
+  <h2 class="text-2xl font-semibold text-gray-800">✏️ Edit Your Blog</h2>
 
-<p>You are editing: <strong>"{{ post.title }}"</strong></p>
+  <p class="text-gray-600">
+    You are editing:
+    <strong class="text-gray-800">"{{ post.title }}"</strong>
+  </p>
 
-{% if post.cover_image %}
-<p>Current Cover Image:</p>
-<img
-  src="{{ post.cover_image.url }}"
-  alt="{{ post.title }}"
-  style="max-width: 20%; height: auto; margin-bottom: 10px"
-/>
-{% endif %}
+  {% if post.cover_image %}
+  <div class="space-y-2">
+    <p class="text-sm text-gray-500">Current Cover Image:</p>
+    <img
+      src="{{ post.cover_image.url }}"
+      alt="{{ post.title }}"
+      class="max-w-xs rounded shadow"
+    />
+  </div>
+  {% endif %}
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %} {{ form.as_p }}
-
-  <button
-    type="submit"
-    style="background: green; color: white; padding: 5px 10px; border: none"
+  <form
+    method="post"
+    enctype="multipart/form-data"
+    class="bg-white shadow-md p-6 rounded space-y-4"
   >
-    Update Post
-  </button>
+    {% csrf_token %} {{ form.as_p }}
 
-  <a href="{% url 'post_detail' post.pk %}" style="margin-left: 10px">
-    Cancel
-  </a>
-</form>
+    <div class="flex items-center space-x-4">
+      <button
+        type="submit"
+        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+      >
+        Update Post
+      </button>
+
+      <a
+        href="{% url 'post_detail' post.pk %}"
+        class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+      >
+        Cancel
+      </a>
+    </div>
+  </form>
+</div>
 {% endblock content %}
