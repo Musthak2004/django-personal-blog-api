@@ -9,7 +9,7 @@
   <div class="w-full max-w-md bg-white shadow-md rounded p-6 space-y-6">
     <h2 class="text-2xl font-semibold text-center text-gray-800">🔐 Log In</h2>
 
-    <form method="post" class="space-y-4">
+    <form type="password" method="post" class="space-y-4">
       {% csrf_token %} {{ form.as_p }}
 
       <button

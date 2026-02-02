@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Personal Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -46,7 +47,19 @@
           </li>
           {% if user.is_authenticated %}
           <li>
-            <a href="{% url 'logout' %}" class="hover:text-red-600">Logout</a>
+            <form
+              method="post"
+              action="{% url 'logout' %}"
+              style="display: inline"
+            >
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+              >
+                Logout
+              </button>
+            </form>
           </li>
           {% else %}
           <li>

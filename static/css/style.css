@@ -1,0 +1,52 @@
+/* ================= FORM STYLING (GLOBAL FIX) ================= */
+
+form p {
+  margin-bottom: 16px;
+}
+
+form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+/* All input types */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="file"],
+form textarea,
+form select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+/* Textarea size */
+form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Focus effect */
+form input:focus,
+form textarea:focus,
+form select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Error messages */
+.errorlist {
+  margin: 6px 0 10px;
+  padding: 0;
+  list-style: none;
+  color: #dc2626;
+  font-size: 14px;
+}
