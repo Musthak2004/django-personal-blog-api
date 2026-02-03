@@ -46,6 +46,20 @@
     <!-- Content preview -->
     <p class="text-gray-700">{{ post.content|truncatechars:150 }}</p>
 
+    <!-- Tags -->
+    {% if post.tags.all %}
+    <div class="flex flex-wrap gap-2">
+      {% for tag in post.tags.all %}
+      <a
+        href="{% url 'post_list' %}?tag={{ tag.slug }}"
+        class="px-2 py-1 bg-gray-200 text-sm rounded hover:bg-gray-300"
+      >
+        {{ tag.name }}
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     <!-- Likes -->
     <p class="text-sm text-gray-500">❤️ {{ post.likes.count }} Likes</p>
 
