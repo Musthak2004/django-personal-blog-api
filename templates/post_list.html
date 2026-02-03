@@ -46,6 +46,9 @@
     <!-- Content preview -->
     <p class="text-gray-700">{{ post.content|truncatechars:150 }}</p>
 
+    <!-- Likes -->
+    <p class="text-sm text-gray-500">❤️ {{ post.likes.count }} Likes</p>
+
     <!-- Actions -->
     <div class="flex space-x-4 text-sm">
       <a

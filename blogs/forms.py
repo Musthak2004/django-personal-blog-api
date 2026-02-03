@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment
+from .models import Comment, Like
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -12,3 +12,8 @@ class CommentForm(forms.ModelForm):
                 "class": "w-full border rounded p-2"
             })
         }
+
+class LikeForm(forms.ModelForm):
+    class Meta:
+        model = Like
+        fields = []

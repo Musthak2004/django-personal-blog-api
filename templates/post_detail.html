@@ -1,8 +1,7 @@
 {% extends "base.html" %}
-<!--                  -->
-
+<!--                     -->
 {% block title %}{{ post.title }}{% endblock title %}
-<!---                 -->
+<!--                      -->
 
 {% block content %}
 <div class="max-w-4xl mx-auto py-10 px-4 space-y-6">
@@ -43,16 +42,43 @@
 <hr class="my-10" />
 
 <div class="max-w-3xl mx-auto space-y-6">
-  <h2 class="text-xl font-semibold text-gray-800">
+  <!-- Improved Likes Section -->
+  <div class="flex items-center space-x-4">
+    <form method="post" class="inline">
+      {% csrf_token %}
+      <button
+        type="submit"
+        name="like_submit"
+        class="flex items-center space-x-2 px-5 py-2 rounded-full font-medium transition duration-200 {% if user_liked %} bg-red-500 text-white hover:bg-red-600 {% else %} bg-gray-200 text-gray-700 hover:bg-gray-300 {% endif %}"
+      >
+        {% if user_liked %}
+        <span>❤️</span>
+        <span>Liked</span>
+        {% else %}
+        <span>🤍</span>
+        <span>Like</span>
+        {% endif %}
+      </button>
+    </form>
+
+    <span class="text-gray-600 font-medium">
+      {{ likes_count }} like{{ likes_count|pluralize }}
+    </span>
+  </div>
+
+  <!-- Comments header -->
+  <h2 class="text-xl font-semibold text-gray-800 mt-6">
     💬 Comments ({{ post.comments.count }})
   </h2>
 
+  <!-- Comment form -->
   {% if user.is_authenticated %}
   <form method="post" class="space-y-4 bg-white p-4 rounded shadow">
     {% csrf_token %} {{ form.as_p }}
     <button
       type="submit"
-      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      name="comment_submit"
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
     >
       Add Comment
     </button>
@@ -71,17 +97,15 @@
     {% for comment in post.comments.all %}
     <div class="bg-gray-100 p-4 rounded">
       <p class="text-sm text-gray-600">
-        <strong>{{ comment.author }}</strong>
-        · {{ comment.created_at|date:"d M Y, h:i A" }}
+        <strong>{{ comment.author }}</strong> · {{ comment.created_at|date:"d M
+        Y, h:i A" }}
       </p>
       <p class="mt-1 text-gray-800">{{ comment.content }}</p>
 
       <!-- Replies -->
       {% for reply in comment.replies.all %}
       <div class="ml-6 mt-3 bg-white p-3 rounded border">
-        <p class="text-sm text-gray-600">
-          <strong>{{ reply.author }}</strong>
-        </p>
+        <p class="text-sm text-gray-600"><strong>{{ reply.author }}</strong></p>
         <p>{{ reply.content }}</p>
       </div>
       {% endfor %}
