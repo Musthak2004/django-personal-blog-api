@@ -73,3 +73,14 @@ class Like(models.Model):
     def get_absolute_url(self):
         return reverse("post_list")
     
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(unique=True)
+    posts = models.ManyToManyField(Post, related_name="tags")
+
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse("post_list")
+    
