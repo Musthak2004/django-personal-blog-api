@@ -1,84 +1,167 @@
 {% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Personal Blog{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>{% block title %}Philosophy.{% endblock %}</title>
 
-    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800;900&display=swap"
       rel="stylesheet"
     />
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "system-ui", "sans-serif"],
+              serif: ["Playfair Display", "Georgia", "serif"],
+            },
+            colors: {
+              accent: "#00d4ff",
+              "accent-green": "#00ff9d",
+              "accent-purple": "#d400ff",
+            },
+            animation: {
+              "fade-in": "fadeIn 1s ease-out forwards",
+              "fade-in-slow": "fadeIn 1.6s ease-out forwards",
+              "fade-in-up": "fadeInUp 0.9s ease-out forwards",
+              "fade-in-up-slow": "fadeInUp 1.3s ease-out forwards",
+              "pulse-soft":
+                "pulseSoft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            },
+            keyframes: {
+              fadeIn: {
+                "0%": { opacity: "0" },
+                "100%": { opacity: "1" },
+              },
+              fadeInUp: {
+                "0%": { opacity: "0", transform: "translateY(24px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              pulseSoft: {
+                "0%, 100%": { opacity: "1" },
+                "50%": { opacity: "0.85" },
+              },
+            },
+            transitionProperty: {
+              height: "height",
+              spacing: "margin, padding",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* Stagger delays for children */
+      [class*="stagger-"] {
+        opacity: 0;
+        animation-fill-mode: forwards;
+      }
+      .stagger-1 {
+        animation-delay: 0.1s;
+      }
+      .stagger-2 {
+        animation-delay: 0.2s;
+      }
+      .stagger-3 {
+        animation-delay: 0.3s;
+      }
+      .stagger-4 {
+        animation-delay: 0.4s;
+      }
+      .stagger-5 {
+        animation-delay: 0.5s;
+      }
+      .stagger-6 {
+        animation-delay: 0.6s;
+      }
+      .stagger-7 {
+        animation-delay: 0.7s;
+      }
+      .stagger-8 {
+        animation-delay: 0.8s;
+      }
+      .stagger-9 {
+        animation-delay: 0.9s;
+      }
+      .stagger-10 {
+        animation-delay: 1s;
+      }
+    </style>
   </head>
 
-  <body class="bg-gray-50 font-sans text-gray-800">
-    <!-- Header -->
+  <body class="bg-gray-950 text-gray-200 font-sans antialiased">
     <header
-      class="bg-white shadow-md py-4 px-6 flex justify-between items-center"
+      class="border-b border-gray-800 bg-gray-900/70 backdrop-blur-md sticky top-0 z-50 animate-fade-in"
     >
-      <h1 class="text-2xl font-playfair">
-        <a href="{% url 'home' %}" class="hover:text-blue-600"
-          >My Personal Blog</a
-        >
-      </h1>
+      <!-- உன் original header content -->
+      <div
+        class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between"
+      >
+        <h1 class="text-4xl font-serif font-extrabold tracking-tight">
+          <a
+            href="{% url 'home' %}"
+            class="text-white hover:text-gray-300 transition"
+          >
+            Philosophy<span class="text-accent">.</span>
+          </a>
+        </h1>
 
-      <nav>
-        <ul class="flex space-x-4">
-          <li>
-            <a href="{% url 'post_list' %}" class="hover:text-blue-600"
-              >Blogs</a
-            >
-          </li>
-          <li>
-            <a href="{% url 'post_create' %}" class="hover:text-green-600"
-              >New Post</a
-            >
-          </li>
+        <nav
+          class="hidden md:flex items-center space-x-10 text-sm uppercase tracking-wider font-medium"
+        >
+          <a href="{% url 'home' %}" class="hover:text-white transition"
+            >Home</a
+          >
+          <a href="{% url 'post_list' %}" class="hover:text-white transition"
+            >Blog</a
+          >
           {% if user.is_authenticated %}
-          <li>
-            <form
-              method="post"
-              action="{% url 'logout' %}"
-              style="display: inline"
-            >
-              {% csrf_token %}
-              <button
-                type="submit"
-                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-              >
-                Logout
-              </button>
-            </form>
-          </li>
-          {% else %}
-          <li>
-            <a href="{% url 'login' %}" class="hover:text-blue-600">Login</a>
-          </li>
+          <a href="{% url 'post_create' %}" class="hover:text-accent transition"
+            >New Post</a
+          >
           {% endif %}
-        </ul>
-      </nav>
+          <a href="#" class="hover:text-white transition">About</a>
+        </nav>
+
+        <div class="flex items-center space-x-6">
+          {% if user.is_authenticated %}
+          <form method="post" action="{% url 'logout' %}" class="inline">
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="text-gray-400 hover:text-red-400 transition text-sm uppercase"
+            >
+              Logout
+            </button>
+          </form>
+          {% else %}
+          <a
+            href="{% url 'login' %}"
+            class="text-gray-300 hover:text-white transition text-sm uppercase"
+            >Login</a
+          >
+          {% endif %}
+        </div>
+      </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-4xl mx-auto py-8 px-4 space-y-6">
-      {% block content %}{% endblock %}
-    </main>
+    <main class="min-h-screen">{% block content %}{% endblock %}</main>
 
-    <!-- Footer -->
-    <footer class="bg-white shadow-inner py-4 mt-10">
-      <div class="text-center text-gray-500 text-sm">
-        &copy; 2026 My Personal Blog. All rights reserved.
+    <footer
+      class="bg-black border-t border-gray-800 py-12 mt-20 animate-fade-in"
+    >
+      <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+        <p>© {{ 'now'|date:"Y" }} Philosophy. All thoughts reserved.</p>
       </div>
     </footer>
   </body>

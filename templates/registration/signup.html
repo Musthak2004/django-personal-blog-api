@@ -1,31 +1,87 @@
 {% extends "base.html" %}
-<!--                    -->
+<!--                  -->
 
-{% block title %}Sign Up - Personal Blog{% endblock title %}
-<!--                        -->
+{% block title %}Sign Up - Philosophy.{% endblock %}
+<!--                       -->
 
 {% block content %}
-<div class="min-h-[70vh] flex items-center justify-center px-4">
-  <div class="w-full max-w-md bg-white shadow-md rounded p-6 space-y-6">
-    <h2 class="text-2xl font-semibold text-center text-gray-800">📝 Sign Up</h2>
 
-    <form method="post" class="space-y-4">
-      {% csrf_token %} {{ form.as_p }}
+<div class="min-h-[80vh] flex items-center justify-center px-6 py-20">
+  <div
+    class="w-full max-w-lg bg-gray-900/70 backdrop-blur-xl border border-gray-800 rounded-2xl shadow-2xl shadow-black/50 p-10 md:p-12 space-y-10"
+  >
+    <!-- Header -->
+    <div class="text-center">
+      <h2
+        class="text-4xl md:text-5xl font-serif font-bold text-white mb-3 tracking-tight"
+      >
+        Join the <span class="text-accent">Conversation</span>.
+      </h2>
+      <p class="text-gray-400 text-lg md:text-xl">
+        Start sharing your thoughts with the world.
+      </p>
+    </div>
 
+    <!-- Form -->
+    <form method="post" class="space-y-8">
+      {% csrf_token %} {% for field in form %}
+      <div class="space-y-3">
+        <label
+          for="{{ field.id_for_label }}"
+          class="block text-sm font-medium uppercase tracking-wider text-gray-400"
+        >
+          {{ field.label }} {% if field.field.required %}*{% endif %}
+        </label>
+
+        {% if field.name == 'password1' or field.name == 'password2' %}
+        <!-- Password fields -->
+        <input
+          type="password"
+          name="{{ field.name }}"
+          id="{{ field.id_for_label }}"
+          class="w-full bg-gray-800 border border-gray-700 rounded-xl px-6 py-4 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition"
+          placeholder="Create secure password"
+        />
+        {% else %}
+        <!-- Username, email, etc. -->
+        <input
+          type="{{ field.field.widget.input_type|default:'text' }}"
+          name="{{ field.name }}"
+          id="{{ field.id_for_label }}"
+          value="{{ field.value|default_if_none:'' }}"
+          class="w-full bg-gray-800 border border-gray-700 rounded-xl px-6 py-4 text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition"
+          placeholder="{{ field.label }}"
+        />
+        {% endif %} {% if field.help_text %}
+        <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+          {{ field.help_text }}
+        </p>
+        {% endif %} {% if field.errors %}
+        <p class="text-sm text-red-400 mt-1">{{ field.errors|join:", " }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <!-- Submit Button -->
       <button
         type="submit"
-        class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+        class="w-full bg-accent text-black font-bold py-5 rounded-xl hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent/50 transition uppercase tracking-wider text-lg shadow-lg shadow-accent/20 mt-8"
       >
         Create Account
       </button>
     </form>
 
-    <p class="text-sm text-center text-gray-600">
-      Already have an account?
-      <a href="{% url 'login' %}" class="text-blue-600 hover:underline">
-        Log In
+    <!-- Login link -->
+    <div class="text-center text-gray-400 text-sm pt-4">
+      Already part of the philosophy?
+      <a
+        href="{% url 'login' %}"
+        class="text-accent hover:text-accent/80 font-medium transition"
+      >
+        Log in here
       </a>
-    </p>
+    </div>
   </div>
 </div>
-{% endblock content %}
+
+{% endblock %}

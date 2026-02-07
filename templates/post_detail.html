@@ -1,135 +1,130 @@
 {% extends "base.html" %}
-<!--                   -->
-{% block title %}{{ post.title }}{% endblock title %}
-<!--                         -->
+<!--                      -->
+
+{% block title %}{{ post.title }} - Philosophy.{% endblock %}
+<!--                      -->
 
 {% block content %}
-<div class="max-w-4xl mx-auto py-10 px-4 space-y-6">
-  <!-- Post Title -->
-  <h1 class="text-3xl font-playfair font-bold text-gray-800 text-center">
-    {{ post.title }}
-  </h1>
 
-  <!-- Cover Image -->
-  {% if post.cover_image %}
-  <div class="flex justify-center my-4">
+<div class="max-w-4xl mx-auto px-6 py-20">
+  <article class="prose prose-invert max-w-none">
+    <h1
+      class="text-5xl md:text-7xl font-serif font-black text-white mb-8 leading-tight"
+    >
+      {{ post.title }}
+    </h1>
+
+    {% if post.cover_image %}
     <img
       src="{{ post.cover_image.url }}"
       alt="{{ post.title }}"
-      class="max-w-xs rounded shadow-md"
+      class="w-full rounded-xl mb-12 shadow-2xl"
     />
-  </div>
-  {% endif %}
+    {% endif %}
 
-  <!-- Post Content -->
-  <div class="prose max-w-full mx-auto">{{ post.content|linebreaks }}</div>
+    <div class="text-gray-300 text-lg leading-relaxed mb-12">
+      {{ post.content|linebreaks }}
+    </div>
 
-  <!-- Post Meta -->
-  <div class="flex justify-between items-center mt-6 text-gray-600 text-sm">
-    <span>by {{ post.author }}</span>
-    <span>🕒 Created: {{ post.created_at|date:"d M Y, h:i A" }}</span>
-  </div>
-
-  {% if post.updated_at and post.updated_at != post.created_at %}
-  <div class="text-gray-500 text-sm mt-1">
-    ✏️ Updated: {{ post.updated_at|date:"d M Y, h:i A" }}
-  </div>
-  {% endif %}
-
-  <!-- Tags Section -->
-  {% if tags %}
-  <div class="flex flex-wrap gap-2 mt-4">
-    {% for tag in tags %}
-    <a
-      href="{% url 'post_list' %}?tag={{ tag.slug }}"
-      class="px-2 py-1 bg-gray-200 text-sm rounded hover:bg-gray-300"
+    <div
+      class="flex flex-wrap items-center justify-between text-gray-500 text-sm border-t border-gray-800 pt-8 mt-12"
     >
-      #{{ tag.name }}
-    </a>
-    {% endfor %}
-  </div>
-  {% endif %}
+      <div>
+        by <span class="text-white">{{ post.author }}</span> · {{
+        post.created_at|date:"d M Y" }}
+      </div>
+      {% if post.updated_at and post.updated_at != post.created_at %}
+      <div>Updated {{ post.updated_at|date:"d M Y" }}</div>
+      {% endif %}
+    </div>
 
-  <!-- Back Link -->
-  <div class="mt-6">
-    <a href="{% url 'post_list' %}" class="text-blue-600 hover:underline">
-      ← Back to posts
-    </a>
-  </div>
-</div>
+    {% if post.tags.all %}
+    <div class="mt-8 flex flex-wrap gap-3">
+      {% for tag in post.tags.all %}
+      <a
+        href="{% url 'post_list' %}?tag={{ tag.slug }}"
+        class="px-4 py-2 bg-gray-800 rounded-full text-sm hover:bg-gray-700 transition"
+      >
+        #{{ tag.name }}
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </article>
 
-<hr class="my-10" />
-
-<div class="max-w-3xl mx-auto space-y-6">
-  <!-- Likes Section -->
-  <div class="flex items-center space-x-4">
+  <!-- Likes -->
+  <div class="mt-16 flex items-center space-x-6">
     <form method="post" class="inline">
       {% csrf_token %}
       <button
         type="submit"
         name="like_submit"
-        class="flex items-center space-x-2 px-5 py-2 rounded-full font-medium transition duration-200 {% if user_liked %} bg-red-500 text-white hover:bg-red-600 {% else %} bg-gray-200 text-gray-700 hover:bg-gray-300 {% endif %}"
+        class="flex items-center space-x-3 px-6 py-3 rounded-full {% if user_liked %}bg-red-600 hover:bg-red-700{% else %}bg-gray-800 hover:bg-gray-700{% endif %} transition font-medium"
       >
         {% if user_liked %}
-        <span>❤️</span>
+        <span class="text-2xl">❤️</span>
         <span>Liked</span>
         {% else %}
-        <span>🤍</span>
+        <span class="text-2xl">🤍</span>
         <span>Like</span>
         {% endif %}
       </button>
     </form>
-
-    <span class="text-gray-600 font-medium">
-      {{ likes_count }} like{{ likes_count|pluralize }}
-    </span>
+    <span class="text-xl font-medium"
+      >{{ likes_count }} like{{ likes_count|pluralize }}</span
+    >
   </div>
 
-  <!-- Comments Section -->
-  <h2 class="text-xl font-semibold text-gray-800 mt-6">
-    💬 Comments ({{ post.comments.count }})
-  </h2>
+  <!-- Comments -->
+  <div class="mt-20">
+    <h2 class="text-3xl font-serif font-bold text-white mb-8">
+      Thoughts ({{ post.comments.count }})
+    </h2>
 
-  {% if user.is_authenticated %}
-  <form method="post" class="space-y-4 bg-white p-4 rounded shadow">
-    {% csrf_token %} {{ form.as_p }}
-    <button
-      type="submit"
-      name="comment_submit"
-      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+    {% if user.is_authenticated %}
+    <form
+      method="post"
+      class="bg-gray-900 p-8 rounded-xl border border-gray-800 mb-12"
     >
-      Add Comment
-    </button>
-  </form>
-  {% else %}
-  <p class="text-sm text-gray-600">
-    <a href="{% url 'login' %}" class="text-blue-600 hover:underline">
-      Log in
-    </a>
-    to write a comment.
-  </p>
-  {% endif %}
+      {% csrf_token %} {{ form.as_p }}
+      <button
+        type="submit"
+        name="comment_submit"
+        class="mt-4 bg-accent text-black font-bold px-8 py-4 rounded-full hover:bg-accent/90 transition uppercase tracking-wider"
+      >
+        Share Thought
+      </button>
+    </form>
+    {% else %}
+    <p class="text-gray-400">
+      <a href="{% url 'login' %}" class="text-accent hover:underline">Login</a>
+      to share your thoughts.
+    </p>
+    {% endif %}
 
-  <!-- Comment List -->
-  <div class="space-y-4">
-    {% for comment in post.comments.all %}
-    <div class="bg-gray-100 p-4 rounded">
-      <p class="text-sm text-gray-600">
-        <strong>{{ comment.author }}</strong> · {{ comment.created_at }}
-      </p>
-      <p class="mt-1 text-gray-800">{{ comment.content }}</p>
-
-      <!-- Replies -->
-      {% for reply in comment.replies.all %}
-      <div class="ml-6 mt-3 bg-white p-3 rounded border">
-        <p class="text-sm text-gray-600"><strong>{{ reply.author }}</strong></p>
-        <p>{{ reply.content }}</p>
+    <div class="space-y-10">
+      {% for comment in post.comments.all %}
+      <div class="bg-gray-900 p-8 rounded-xl border border-gray-800">
+        <p class="text-gray-400 text-sm mb-3">
+          {{ comment.author }} · {{ comment.created_at|date:"d M Y" }}
+        </p>
+        <p class="text-gray-200">{{ comment.content }}</p>
       </div>
+      {% empty %}
+      <p class="text-gray-500 italic">
+        No thoughts yet. Start the conversation.
+      </p>
       {% endfor %}
     </div>
-    {% empty %}
-    <p class="text-gray-600">No comments yet. Be the first!</p>
-    {% endfor %}
+  </div>
+
+  <div class="mt-20 text-center">
+    <a
+      href="{% url 'post_list' %}"
+      class="text-accent hover:text-white transition uppercase tracking-wider"
+      >← Back to thoughts</a
+    >
   </div>
 </div>
-{% endblock content %}
+
+{% endblock %}

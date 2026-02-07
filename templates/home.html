@@ -1,55 +1,62 @@
 {% extends "base.html" %}
-<!--                 -->
+<!--                     -->
 
-{% block title %}Home - Personal Blog{% endblock title %}
-<!--                  -->
+{% block title %}Home - Philosophy.{% endblock %}
+<!--                       -->
 
 {% block content %}
-<div class="max-w-4xl mx-auto py-10 px-4 text-center space-y-6">
+
+<div class="max-w-7xl mx-auto px-6 py-20">
   {% if user.is_authenticated %}
-  <h2 class="text-2xl font-semibold">Hi {{ user.username }}! 👋</h2>
+  <div class="text-center mb-16">
+    <h2 class="text-5xl font-serif font-bold text-white mb-4">
+      Welcome back, {{ user.username }}.
+    </h2>
+    <p class="text-xl text-gray-400">Share your thoughts with the world.</p>
+  </div>
 
-  <div class="flex justify-center items-center space-x-4">
-    <form method="post" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <button
-        type="submit"
-        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-      >
-        Log Out
-      </button>
-    </form>
-
-    <span class="text-gray-700">
-      Check your
-      <a href="{% url 'post_list' %}" class="text-blue-600 hover:underline"
-        >Blogs</a
-      >
-    </span>
+  <div class="flex justify-center space-x-8">
+    <a
+      href="{% url 'post_create' %}"
+      class="bg-accent text-black font-bold px-8 py-4 rounded-full hover:bg-accent/90 transition text-lg uppercase tracking-wider"
+    >
+      Write New Post
+    </a>
+    <a
+      href="{% url 'post_list' %}"
+      class="border border-gray-600 text-gray-300 hover:text-white px-8 py-4 rounded-full transition text-lg uppercase tracking-wider"
+    >
+      View Blogs
+    </a>
   </div>
 
   {% else %}
-  <h2 class="text-2xl font-semibold text-gray-800">
-    Welcome to Personal Blog!
-  </h2>
-  <p class="text-gray-600">
-    Please log in or sign up to create your own posts.
-  </p>
+  <div class="text-center py-32">
+    <h1
+      class="text-6xl md:text-8xl font-serif font-black text-white mb-6 tracking-tight"
+    >
+      Philosophy<span class="text-accent">.</span>
+    </h1>
+    <p class="text-2xl text-gray-400 max-w-3xl mx-auto mb-12">
+      Thoughts. Reflections. Ideas that matter.
+    </p>
 
-  <div class="space-x-4 mt-4">
-    <a
-      href="{% url 'login' %}"
-      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-    >
-      Log In
-    </a>
-    <a
-      href="{% url 'signup' %}"
-      class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-    >
-      Sign Up
-    </a>
+    <div class="flex justify-center space-x-6">
+      <a
+        href="{% url 'login' %}"
+        class="bg-accent text-black font-bold px-10 py-5 rounded-full hover:bg-accent/90 transition text-xl uppercase tracking-wider"
+      >
+        Enter
+      </a>
+      <a
+        href="{% url 'signup' %}"
+        class="border-2 border-gray-600 text-gray-300 hover:text-white px-10 py-5 rounded-full transition text-xl uppercase tracking-wider"
+      >
+        Join
+      </a>
+    </div>
   </div>
   {% endif %}
 </div>
+
 {% endblock %}
